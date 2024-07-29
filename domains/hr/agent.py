@@ -64,12 +64,16 @@ def send_message(question):
     response = _client.user_message(agent_id=_agent_client.id, message=question)
     return response.messages, response.usage
 
+source = _client.create_source(name="hr_source")
+_client.load_file_into_source(filename="./domains/hr/docs/orari.pdf", source_id=source.id)
+_client.attach_source_to_agent(source_id=source.id, agent_id=_agent_client.id)
+
 while True:
     question = _a0.get_kb_question()
     
     question = FipaAclMessage.from_dict(question)
-    request =f""" you receive a message from {question.sender}. the question is: {question.content}. the suggested ontology is: {question.ontology}.
-    """
+    # TODO problem, la risposta non arriva sempre nella function call.
+    request =f"without more question about it, search in your archival memory and give an accurate response to the question: {question.content}. give me the response always in the function call with the send_message. respond without any comment or disclaimer."
 
     message, usage = send_message(request)
     response = handle_message(message)
