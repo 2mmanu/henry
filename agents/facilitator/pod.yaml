@@ -12,7 +12,7 @@ spec:
         [
           "sh",
           "-c",
-          "pip install fastapi uvicorn pydantic requests && python /app",
+          "pip install fastapi uvicorn pydantic requests agentlink==0.1.2.dev1 && python /app",
         ]
       volumeMounts:
         - name: config-volume

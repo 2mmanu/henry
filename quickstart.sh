@@ -30,9 +30,9 @@ else
 fi
 
 # kubectl delete configmap fastapi-config-f
-# kubectl create configmap fastapi-config-f --from-file=facilitator/app.py
-# kubectl delete -f facilitator/pod.yaml
-# kubectl apply -f facilitator/pod.yaml
+# kubectl create configmap fastapi-config-f --from-file=agents/facilitator/app.py
+# kubectl delete -f agents/facilitator/pod.yaml
+# kubectl apply -f agents/facilitator/pod.yaml
 
 # kubectl port-forward svc/my-memgpt 8083:8083
 

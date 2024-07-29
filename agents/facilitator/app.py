@@ -1,7 +1,20 @@
-from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel
-from typing import Dict
-import requests
+from fastapi import FastAPI
+from pydantic import SecretStr
+from agentlink.agent import Agent
+from agentlink.bus.config import BusSettings, BlackboardSettings, ChannelsSettings
+
+_a0 = Agent("facilitator",
+            topics=["general"],
+            bus_config=BusSettings(
+                channels=ChannelsSettings(
+                    dns="kafka://kafka:9092",
+                    ),
+                blackboard=BlackboardSettings(
+                    dns="redis://redis:6379",
+                    redis_pwd=SecretStr("h1qeEKs3TK"),
+                    ),
+                )
+            )
 
 app = FastAPI()
 
@@ -20,7 +33,9 @@ def facilitator(ontology: str, question: str) -> str:
     :raises HTTPException: If the request to the API returns a status code indicating an error.
     """
     print(f"facilitator: {question}")
-    return "I giorni di ferie dipendono dal livello. Generalmente sono 22 giorni per anno."
+    
+    _a0.ask_kb(ontology=ontology,question=str(question),receiver_id="ISPExpert")
+    return str(_a0.get_kb_question())
 
 if __name__ == "__main__":
     import uvicorn
