@@ -105,15 +105,30 @@ class memGPT():
         response = self._client.user_message(agent_id=self._agent_client.id, message=question)
         return response.messages, response.usage
     
-   
+    def notify(self, news):
+        # TODO problem, la risposta non arriva sempre nella function call.
+        message, usage = self._send_message(news)
+        return message
+
     def ask(self, question):
         # TODO problem, la risposta non arriva sempre nella function call.
         request =f"without more question about it, search in your archival memory and give an accurate response to the question: {question}. give me the response always in the function call with the send_message. respond without any comment or disclaimer."
-
         message, usage = self._send_message(request)
         response = self._handle_message(message)
-
-        return response
+        return str(response)
+    
+    def request(self, agents,request):
+        # TODO problem, la risposta non arriva sempre nella function call.
+        instructions = f"""You are the coordinator of these agents which you can call with the function ask_to: {str(agents)}. 
+        The user has made the following request: {request}. 
+        Break down the request into steps and for each part, try to use at least one agent. 
+        Then try to response to the quesiton."""
+        # Provide in JSON format, without commenting, the following structure: 
+        # {{'observation': 'observation', 'questions': [('question', 'agent_name')]}}
+        # In the observation field, insert a description of what you have decided."""
+        message, usage = self._send_message(instructions)
+        response = self._handle_message(message)
+        return str(response)
     
     def create_source(self, name):
         source = self._client.create_source(name=name)

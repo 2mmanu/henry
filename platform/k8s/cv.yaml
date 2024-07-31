@@ -7,12 +7,12 @@ metadata:
 spec:
   containers:
     - name: isp-cv-expert
-      image: python:3.12
+      image: 2mmanu/agentbuddy:latest
       command:
         [
           "sh",
           "-c",
-          "pip install fastapi uvicorn pydantic requests pymemgpt==0.3.21 && python app.py",
+          "python /app.py",
         ]
       env:
         - name: MEMGPT_BASEURL
@@ -21,6 +21,16 @@ spec:
           value: "isp-cv-expert"
         - name: PERSONA_NAME
           value: "isp-cv-expert"
+        - name: AGENT_PURPOSE
+          value: "CV Assistant: Description: CV Assistant manages candidates' resumes and provides detailed information about them, such as their work experience, education, and references. Example questions: - 'Who is the candidate and do we have their resume?' - 'Can you provide me with a copy of the candidate's resume?' - 'What are the candidate's past work experiences?'"
+        - name: AGENT_HOST
+          value: "isp-cv-expert"
+        - name: AGENT_PORT
+          value: "80"
+        - name: AGENT_P_HOST
+          value: "facilitator"
+        - name: AGENT_P_PORT
+          value: "80"
       volumeMounts:
         - name: code-volume
           mountPath: /app.py
