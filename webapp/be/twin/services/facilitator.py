@@ -1,9 +1,7 @@
-def facilitator(self, ontology: str, question: str) -> str:
+def get_help(self, question: str) -> str:
     """
-    Facilitate a request to the given API with provided ontology and question, and return the response value.
+    Facilitate a request to the given API with provided a question, and return the response value.
 
-    :param ontology: The ontology to be used in the API request.
-    :type ontology: str
     :param question: The question to be sent to the API.
     :type question: str
     :return: The response from the API as a string.
@@ -12,13 +10,14 @@ def facilitator(self, ontology: str, question: str) -> str:
     :raises requests.RequestException: If there is an error making the request.
 
     Example usage:
-    facilitator("exampleOntology", "What is the capital of France?")
-    facilitator("HR", "What is the vacation policy?")
+    facilitator("What is the capital of France?")
+    facilitator("What is the vacation policy?")
+    facilitator("Can I hire Bob and what is a good starting salary for Bob? What information do you need?")
     """
     import requests
 
-    api_url = 'http://fastapi-service-f/api/v1/query'
-    params = {'ontology': ontology, 'question': question}
+    api_url = 'http://facilitator/api/v1/ask'
+    params = {'question': question}
 
     response = requests.get(api_url, params=params)
     return response.text

@@ -21,7 +21,7 @@ def get_agent_app(name:str,persona:str,purpose:str=None,hostname:str=None,port:s
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        context["memgpt"] = memGPT(name=name,persona=persona)
+        context["memgpt"] = memGPT(name=name,human="agent",persona=persona)
         context["agents"] = {}
         if parent_hostname is not None and parent_port is not None:
             notify_to_parent(name=name,purpose=purpose,hostname=hostname,port=port,parent_hostname=parent_hostname,parent_port=parent_port)
@@ -39,6 +39,12 @@ def get_agent_app(name:str,persona:str,purpose:str=None,hostname:str=None,port:s
     @app.get("/api/v1/verify")
     def verify() -> str:
         return "ciao"
+    
+    @app.get("/api/v1/get_domains")
+    def get_domians() -> str:
+        if len(context["agents"])!=0:
+            return str(context["memgpt"].ask(question=f"Get a summary of the knowledge that you can access through the agents: {str(context['agents'])}. Do not give details about the names of the agents."))
+        return "None"
     
     @app.get("/api/v1/agents")
     def list_agents() -> str:

@@ -2,6 +2,8 @@ import os
 import json
 from memgpt import Admin
 from memgpt import create_client
+from memgpt.memory import ChatMemory
+from memgpt.utils import get_human_text
 
 def ask_to(self, agent_name: str, question: str, address:str) -> str:
     """
@@ -55,7 +57,7 @@ def verify(self, agent_name: str, address:str) -> str:
 
 class memGPT():
 
-    def __init__(self,name:str,persona:str,base_url=os.getenv("MEMGPT_BASEURL", default="http://localhost:8083")) -> None:
+    def __init__(self,name:str,human:str,persona:str,base_url=os.getenv("MEMGPT_BASEURL", default="http://localhost:8083")) -> None:
         _, k = self._get_memGPT_credential()
         self._client = create_client(base_url=base_url,token=k)
 
@@ -64,13 +66,10 @@ class memGPT():
             tools.append(self._client.create_tool(tool, tags=["extras"]).name)
 
         self._agent_client = self._client.create_agent(
-            name=name,
-            metadata= {
-                "human:": "basic", 
-                # TODO memgpt cli command ?
-                # "persona": persona,
-                },
-                tools=tools
+                name=name,
+                memory = ChatMemory(human=get_human_text(human), persona=get_human_text(persona)),
+                metadata = {"human:": human, "persona": persona},
+                tools=tools,
             )
 
     def _get_memGPT_credential(self):
