@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import json
-from .session import validate_session, save_data_session
-from twin import Twin
+from .session import validate_session, save_data_session, get_data_session
+from .twin import Twin
 
 router = APIRouter()
 
@@ -12,12 +12,13 @@ class Message(BaseModel):
 
 @router.post("/sentinel")
 async def sentinel(x_session_id: str = Depends(validate_session)):
-    pilot = Twin(name=x_session_id)
-    pilot.create_agent()
-    agent_id = pilot.get_agent_id()
-    await save_data_session(x_session_id=x_session_id,k="agentid",v=agent_id)
-    return {"agent id": agent_id}
-
+    #TODO from session get the name of the user. "human" is default
+    twin = Twin(session_id=x_session_id)
+    twin_id = str(twin.get_agent_id())
+    domains = twin.get_domains_syntax()
+    await save_data_session(x_session_id=x_session_id, k="twin_id", v=twin_id)
+    await save_data_session(x_session_id=x_session_id, k="twin_domains", v=domains)
+    return {"twin id": twin_id, "domains": domains}
 
 @router.get("/stream")
 async def stream(sessionId: str, content: str):
@@ -28,10 +29,10 @@ async def stream(sessionId: str, content: str):
         raise HTTPException(status_code=401, detail="Invalid session ID")
 
     def event_generator():
-        pilot = Twin(name=sessionId)
-        # agentid = await get_data_session(sessionId,"agentid")
-        pilot.create_agent() # pilot.set_agent_id(agentid)
-        messages, usage = pilot.send_message(content)
+        twin_id = get_data_session(session_id=sessionId,k="twin_id")
+        domains = get_data_session(session_id=sessionId,k="twin_domains")
+        twin = Twin(id=twin_id,session_id=sessionId,domains=domains)
+        messages, usage = twin.send_message(question=content)
         yield f"""data: {json.dumps({
             "messages": messages, 
             "usage": {

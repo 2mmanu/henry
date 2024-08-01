@@ -196,6 +196,7 @@ window.addEventListener('beforeunload', () => {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     createSession();
+    callSentinel();
 });
 
 

@@ -4,6 +4,7 @@ from typing import Dict
 from pydantic import BaseModel
 import uvicorn
 import uuid
+import json
 
 app = FastAPI()
 
@@ -33,6 +34,8 @@ class SessionManager:
         self.session_data[session_id][k]=v
 
     def get_session_data(self, session_id: str, k):
+        if k not in self.session_data[session_id]:
+            raise HTTPException(status_code=404, detail="Key not found")
         return self.session_data[session_id][k]
 
     def close_session(self, session_id: str):
