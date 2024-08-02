@@ -61,22 +61,26 @@ class memGPT():
         _, k = self._get_memGPT_credential()
         self._client = create_client(base_url=base_url,token=k)
 
+        # chatmemory = ChatMemory(human=human, persona=persona)
+        # chatmemory.core_memory_append("human","Name: Emmanuele")
+        # chatmemory.core_memory_append("persona","Name: agentBUDDY")
+
         tools = []
         for tool in [ask_to,verify]:
             tools.append(self._client.create_tool(tool, tags=["extras"]).name)
 
         self._agent_client = self._client.create_agent(
                 name=name,
-                memory = ChatMemory(human=get_human_text(human), persona=get_human_text(persona)),
+                # memory = chatmemory,
                 metadata = {"human:": human, "persona": persona},
                 tools=tools,
             )
 
     def _get_memGPT_credential(self):
-        admin = Admin(base_url=os.getenv("MEMGPT_BASEURL", default="http://localhost:8083"), token="password")
-        response = admin.create_user()
-        user_id = response.user_id # unique UUID for the user 
-        api_key = response.api_key # bearer token for authentication
+        # admin = Admin(base_url=os.getenv("MEMGPT_BASEURL", default="http://localhost:8083"), token="password")
+        # response = admin.create_user()
+        user_id = None # response.user_id # unique UUID for the user 
+        api_key = "sk-3865e0a0f8f2fb976a7856d40c1df573dec09e537cae95ad" # response.api_key # bearer token for authentication
         return user_id, api_key
 
     def _handle_message(self,messages):

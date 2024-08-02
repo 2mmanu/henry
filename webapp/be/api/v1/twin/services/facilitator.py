@@ -1,6 +1,9 @@
 def get_help(self, question: str) -> str:
     """
     Facilitate a request to the given API with provided a question, and return the response value.
+    When the user asks a question use the function get_help if your knowledge is limited about the question. 
+    The function can explain better about multiple domains. 
+    Do not ask the user any questions until you have first consulted the get_help function.
 
     :param question: The question to be sent to the API.
     :type question: str

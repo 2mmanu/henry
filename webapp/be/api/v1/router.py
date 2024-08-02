@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Depends
+from memgpt import Admin
+from fastapi import APIRouter, HTTPException, Depends, Body
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import json
@@ -10,14 +11,24 @@ router = APIRouter()
 class Message(BaseModel):
     message: str
 
+@router.post("/set-username")
+async def set_username(x_session_id: str = Depends(validate_session), username:dict= Body(...)):
+    admin = Admin(base_url="http://localhost:8083", token="password")
+    # admin.create_user('00000000-0000-0000-0000-000000375016')
+    username = username["username"]
+    k=admin.get_keys(user_id=username)[0]
+    await save_data_session(x_session_id=x_session_id, k="twin_k", v=k)
+    return "OK"
+
 @router.post("/sentinel")
 async def sentinel(x_session_id: str = Depends(validate_session)):
-    #TODO from session get the name of the user. "human" is default
-    twin = Twin(session_id=x_session_id)
+    username = get_data_session(session_id=x_session_id, k="twin_k")
+    twin = Twin(session_id=x_session_id,token=username)
     twin_id = str(twin.get_agent_id())
-    domains = twin.get_domains_syntax()
+    domains = None # twin.get_domains_syntax()
     await save_data_session(x_session_id=x_session_id, k="twin_id", v=twin_id)
-    await save_data_session(x_session_id=x_session_id, k="twin_domains", v=domains)
+    # await save_data_session(x_session_id=x_session_id, k="twin_domains", v=domains)
+    # resp = twin.init_enterprise_context('Emmanuele',domains)
     return {"twin id": twin_id, "domains": domains}
 
 @router.get("/stream")
@@ -29,9 +40,9 @@ async def stream(sessionId: str, content: str):
         raise HTTPException(status_code=401, detail="Invalid session ID")
 
     def event_generator():
+        username = get_data_session(session_id=sessionId, k="twin_k")
         twin_id = get_data_session(session_id=sessionId,k="twin_id")
-        domains = get_data_session(session_id=sessionId,k="twin_domains")
-        twin = Twin(id=twin_id,session_id=sessionId,domains=domains)
+        twin = Twin(id=twin_id,session_id=sessionId,token=username)
         messages, usage = twin.send_message(question=content)
         yield f"""data: {json.dumps({
             "messages": messages, 
