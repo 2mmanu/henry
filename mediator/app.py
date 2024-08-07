@@ -166,6 +166,12 @@ if __name__ == "__main__":
 
     mediator = ApplicationMediator(name="mediator",context=context)
 
+    #fase 0 fai il recruiment (qui simulato).
+
+    # ci sono due tipi di agenti: designer e maker questo e' esplicitato da descrivi o crea codice
+    # i designer sono di supporto alla conoscenza
+    # i maker sono agenti che possono produrre un risultato (testo, file) o un'azione con il relativo ritorno
+
     app1 = Application("UX-UI-Designer",
                        context=context,
                        agent_role="""
@@ -206,15 +212,26 @@ if __name__ == "__main__":
     - Frontend: HTML/CCS/Javascript
 
     """
+
+    # fase 1 crea il problema
     mediator.define_problem(problem_description)
 
+    # fase 2 chiedi una soluzione iniziale agli agenti.
     mediator.get_solutions()
+
+    #fase 3 itera per discutere della soluzione
     mediator.review_solutions(iteration=4)
+
+    #fase 4 realizzativa, i maker devono creare i risultati
     mediator.finalize_solutions()
 
+    #fase 5 gestione del risultato
     final_solutions = mediator.get_final_solutions()
     for app, solution in final_solutions:
         filename = f"{app.name}.txt"  
         with open(filename, 'w') as file:  
             file.write(solution)
         print(f"File '{filename}' created with solution.")
+
+    # fase 6 valutazione human? dipende dai maker cosa possno fare.
+    # faccio una sintesi all'umano e gli riepilogo i punti salienti?
