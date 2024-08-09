@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+<body>
+	<h1>Welcome to the Login Page!</h1>
+<form id='login-form' method='POST'>
+	<input type='text' id='username' name='username' placeholder='Username'>
+	<input type='password' id='password' name='password' placeholder='Password'>
+	<input type='submit' id='submit' value='Login'>
+</form>
+<script>
+	let loginForm = document.getElementById('login-form');
+	loginForm.onsubmit = function(e) {
+		e.preventDefault();
+		let username = document.getElementById('username').value;
+		fetch('/login', {
+			method: 'POST',
+			body: JSON.stringify({
+				username,
+				password: document.getElementById('password').value
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(response => response.json())
+			.then(data => alert(data.message));
+	}
+</script>
+</body>
+</html>

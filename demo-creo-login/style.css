@@ -1,0 +1,33 @@
+
+body {
+    background-color: #258900;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 50px;
+    color: #ffffff;
+}
+
+#login-form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 100px 0;
+}
+
+input[type='text'], input[type='password'] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+input[type='submit'] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #258900;
+}
