@@ -1,0 +1,6 @@
+{{- range .Values.facilitators }}
+    {{ include "agent-deploy.tpl" . }}
+    {{- (printf "---") }}
+    {{ include "agent-service.tpl" . }}
+    {{- (printf "---") }}
+{{- end }}

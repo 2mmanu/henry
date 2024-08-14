@@ -1,0 +1,34 @@
+facilitators:
+  - name: "facilitator"
+    podTemplates:
+      replicaCount: 1
+
+domains:
+  - name: "hr-domain"
+    agents:
+      - name: "isp-hr-expert"
+        info:
+          agentDescription: |
+              HR Assistant provides information regarding salaries, benefits, compensation policies, 
+              and other HR-related issues, helping to determine a competitive and appropriate salary offer. 
+          exampleQuestions: | 
+              - What is an appropriate starting salary for the candidate?
+              - What benefits and extra compensation can the candidate expect?
+              - What is the standard salary range for this position in our company?
+        podTemplates:
+          env:
+          - name: PINO
+            value: "http://my-memgpt:8083"
+          - name: PINO2
+            value: "http://my-memgpt:8083"
+  - name: "cv-domain"
+    agents:
+      - name: "isp-cv-expert"
+        info:
+          agentDescription: |
+            CV Assistant manages candidates' resumes and provides detailed information about them, 
+            such as their work experience, education, and references. 
+          exampleQuestions: | 
+            - Who is the candidate and do we have their resume? 
+            - Can you provide me with a copy of the candidate's resume? 
+            - What are the candidate's past work experiences?

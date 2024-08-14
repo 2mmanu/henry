@@ -1,0 +1,9 @@
+{{- range .Values.domains }}
+    {{ $domain := .name }}
+    {{- range .agents }}
+        {{ include "agent-deploy.tpl" . }}
+        {{- (printf "---") }}
+        {{ include "agent-service.tpl" . }}
+        {{- (printf "---") }}
+    {{- end }}
+{{- end }}
