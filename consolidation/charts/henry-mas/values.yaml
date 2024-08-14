@@ -1,3 +1,8 @@
+global:
+  memgpt:
+    host: "http://my-memgpt:8083"
+    key: "sk-3865e0a0f8f2fb976a7856d40c1df573dec09e537cae95ad"
+
 facilitators:
   - name: "facilitator"
     podTemplates:
@@ -7,6 +12,7 @@ domains:
   - name: "hr-domain"
     agents:
       - name: "isp-hr-expert"
+        parent: "facilitator"
         info:
           agentDescription: |
               HR Assistant provides information regarding salaries, benefits, compensation policies, 
@@ -15,15 +21,10 @@ domains:
               - What is an appropriate starting salary for the candidate?
               - What benefits and extra compensation can the candidate expect?
               - What is the standard salary range for this position in our company?
-        podTemplates:
-          env:
-          - name: PINO
-            value: "http://my-memgpt:8083"
-          - name: PINO2
-            value: "http://my-memgpt:8083"
   - name: "cv-domain"
     agents:
       - name: "isp-cv-expert"
+        parent: "facilitator"
         info:
           agentDescription: |
             CV Assistant manages candidates' resumes and provides detailed information about them, 

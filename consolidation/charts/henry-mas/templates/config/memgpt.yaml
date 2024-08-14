@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: memgpt-config
+data:
+  memgpt-host: "{{ .Values.global.memgpt.host }}"
+  memgpt-key: "{{ .Values.global.memgpt.key }}"

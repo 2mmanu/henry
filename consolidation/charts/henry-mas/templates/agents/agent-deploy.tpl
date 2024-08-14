@@ -13,11 +13,19 @@ spec:
         [
           "sh",
           "-c",
-          "python /app.py",
+          "pip install agentbuddy==0.1.1.dev1 && python -m agentbuddy.app",
         ]
       env:
         - name: MEMGPT_BASEURL
-          value: "http://my-memgpt:8083"
+          valueFrom:
+            configMapKeyRef:
+              name: memgpt-config
+              key: memgpt-host
+        - name: MEMGPT_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: memgpt-config
+              key: memgpt-key
         - name: AGENT_NAME
           value: "{{ .name }}"
         - name: PERSONA_NAME
@@ -26,10 +34,12 @@ spec:
           value: "{{ .name }}"
         - name: AGENT_PORT
           value: "80"
+        {{- with .parent }}
         - name: AGENT_P_HOST
-          value: "facilitator"
+          value: "{{ . }}"
         - name: AGENT_P_PORT
           value: "80"
+        {{- end }}
         {{- with .podTemplates }}
             {{- if .env }}
                 {{- toYaml .env | nindent 8 }}
@@ -40,24 +50,4 @@ spec:
           value: |
             {{- include "formatAgentInfo" . | nindent 12 -}}
         {{- end }}
-      volumeMounts:
-        - name: code-volume
-          mountPath: /app.py
-          subPath: agent.py
-        - name: code-utils-volume
-          mountPath: /utils/memgpt.py
-          subPath: memgpt.py
-        - name: code-agent-volume
-          mountPath: /agent/app.py
-          subPath: app.py
-  volumes:
-    - name: code-volume
-      configMap:
-        name: agent-code
-    - name: code-utils-volume
-      configMap:
-        name: utils-memgpt
-    - name: code-agent-volume
-      configMap:
-        name: agent-app
 {{ end -}}
