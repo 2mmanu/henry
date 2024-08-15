@@ -1,0 +1,9 @@
+{{- if .Values.webapp.active }}
+    {{- $name := "webapp-be" -}}
+    {{- $port := 8001 -}}
+    {{- $command := print "pip install agentbuddy==" .Values.webapp.vesion " && python -m agentbuddy.webapp.be.app" -}}
+    {{- $params := dict "name" $name "command" $command "podTemplates" .Values.webapp.podTemplates "port" $port -}}
+    {{ include "pod-deploy.tpl" $params }}
+    {{- (printf "---") }}
+    {{ include "pod-service.tpl" $params }}
+{{ end -}}

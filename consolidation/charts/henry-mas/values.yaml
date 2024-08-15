@@ -3,6 +3,16 @@ global:
     host: "http://my-memgpt:8083"
     key: "sk-3865e0a0f8f2fb976a7856d40c1df573dec09e537cae95ad"
 
+webapp:
+  active: true
+  vesion: 0.1.1.dev4 
+  podTemplates:
+    env:
+    - name: SESSION_BASE_URL
+      value: "http://webapp-session:8002/api/v1"
+    - name: FACILITATOR_BASE_URL
+      value: "http://facilitator/api/v1"
+      
 facilitators:
   - name: "facilitator"
     podTemplates:

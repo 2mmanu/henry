@@ -1,0 +1,3 @@
+kubectl port-forward webapp-session 8002:8002 &
+kubectl port-forward webapp-be 8001:8001 &
+kubectl port-forward webapp-frontend 8000:8000 &
