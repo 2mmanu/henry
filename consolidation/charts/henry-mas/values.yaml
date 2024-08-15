@@ -5,14 +5,32 @@ global:
 
 webapp:
   active: true
-  vesion: 0.1.1.dev4 
+  vesion: 0.1.1.dev7 
   podTemplates:
     env:
+    - name: TWIN_BASE_URL
+      value: "http://digital-twin:8005"
     - name: SESSION_BASE_URL
-      value: "http://webapp-session:8002/api/v1"
+      value: "http://webapp-session:8002"
+    #TODO user e short per be
+    - name: USER_NAME
+      value: Emmanuele
+    - name: USER_SHORT
+      value: "vivo a Torino"
+
+twin:
+  version: 0.1.1.dev7
+  podTemplates:
+    env:
     - name: FACILITATOR_BASE_URL
       value: "http://facilitator/api/v1"
-      
+    - name: MEMGPT_BASE_URL
+      value: "http://my-memgpt:8083"
+    - name: MEMGPT_KEY
+      value: "sk-fa5c7de8d6c03bdb29a5efe5fe3fbacbdbd31fb341e4dccf"
+    - name: SESSION_BASE_URL
+      value: "http://webapp-session:8002"
+
 facilitators:
   - name: "facilitator"
     podTemplates:

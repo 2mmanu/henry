@@ -1,0 +1,7 @@
+{{- $name := "digital-twin" -}}
+{{- $port := 8005 -}}
+{{- $command := print "pip install agentbuddy==" .Values.twin.version " && python -m agentbuddy.twin.app" -}}
+{{- $params := dict "name" $name "command" $command "podTemplates" .Values.twin.podTemplates "port" $port -}}
+{{ include "pod-deploy.tpl" $params }}
+{{- (printf "---") }}
+{{ include "pod-service.tpl" $params }}
