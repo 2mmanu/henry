@@ -5,7 +5,7 @@ global:
 
 webapp:
   active: true
-  vesion: 0.1.1.dev7 
+  vesion: 0.1.1.dev25 
   podTemplates:
     env:
     - name: TWIN_BASE_URL
@@ -16,10 +16,10 @@ webapp:
     - name: USER_NAME
       value: Emmanuele
     - name: USER_SHORT
-      value: "vivo a Torino"
+      value: "vivo a Torino, id bancario: 12345678"
 
 twin:
-  version: 0.1.1.dev7
+  version: 0.1.1.dev25
   podTemplates:
     env:
     - name: FACILITATOR_BASE_URL
@@ -61,3 +61,25 @@ domains:
             - Who is the candidate and do we have their resume? 
             - Can you provide me with a copy of the candidate's resume? 
             - What are the candidate's past work experiences?
+  # - name: "payments-domain"
+  #   agents:
+  #     - name: "payment-processor"
+  #       parent: "facilitator"
+  #       info:
+  #         agentDescription: |
+  #           Payment Processor handles transactions, enabling users to make payments securely 
+  #           and efficiently across various platforms.
+  #         exampleQuestions: |
+  #           - Can you process a payment to this account?
+  #           - How do I make a payment using my preferred method?
+  #           - Is the payment successful?
+  #     - name: "balance-checker"
+  #       parent: "facilitator"
+  #       info:
+  #         agentDescription: |
+  #           Balance Checker provides real-time information about the user's current account 
+  #           balance and recent transactions.
+  #         exampleQuestions: |
+  #           - What is my current account balance?
+  #           - Can you give me a summary of my recent transactions?
+  #           - How do I check my available balance?

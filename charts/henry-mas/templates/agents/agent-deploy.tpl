@@ -13,10 +13,10 @@ spec:
         [
           "sh",
           "-c",
-          "pip install agentbuddy==0.1.1.dev1 && python -m agentbuddy.app",
+          "pip install agentbuddy==0.1.1.dev25 && python -m agentbuddy.agent.app",
         ]
       env:
-        - name: MEMGPT_BASEURL
+        - name: MEMGPT_BASE_URL
           valueFrom:
             configMapKeyRef:
               name: memgpt-config
@@ -26,6 +26,8 @@ spec:
             configMapKeyRef:
               name: memgpt-config
               key: memgpt-key
+        - name: SESSION_BASE_URL
+          value: "http://webapp-session:8002"
         - name: AGENT_NAME
           value: "{{ .name }}"
         - name: PERSONA_NAME

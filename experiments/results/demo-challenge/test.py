@@ -6,3 +6,4 @@ assert filter_even_numbers([1, 2, 3, 4]) == [2, 4], 'Test Failed: filter_even_nu
 assert sort_numbers([3, 2, 1]) == [1, 2, 3], 'Test Failed: sort_numbers'
 
 print('All tests passed.')
+
