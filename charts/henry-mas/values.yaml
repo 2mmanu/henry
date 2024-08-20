@@ -21,6 +21,7 @@ webapp:
 twin:
   version: 0.1.1.dev31
   podTemplates:
+    replicaCount: 2
     env:
     - name: FACILITATOR_BASE_URL
       value: "http://facilitator/api/v1"
