@@ -5,7 +5,7 @@ global:
 
 webapp:
   active: true
-  vesion: 0.1.1.dev25 
+  vesion: 0.1.1.dev31
   podTemplates:
     env:
     - name: TWIN_BASE_URL
@@ -19,7 +19,7 @@ webapp:
       value: "vivo a Torino, id bancario: 12345678"
 
 twin:
-  version: 0.1.1.dev25
+  version: 0.1.1.dev31
   podTemplates:
     env:
     - name: FACILITATOR_BASE_URL

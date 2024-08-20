@@ -13,7 +13,7 @@ spec:
         [
           "sh",
           "-c",
-          "pip install agentbuddy==0.1.1.dev25 && python -m agentbuddy.agent.app",
+          "pip install agentbuddy==0.1.1.dev31 && python -m agentbuddy.agent.app",
         ]
       env:
         - name: MEMGPT_BASE_URL
