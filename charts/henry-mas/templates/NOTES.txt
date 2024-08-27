@@ -1,3 +1,1 @@
-kubectl port-forward svc/webapp-session 8002:8002 &
-kubectl port-forward svc/webapp-be 8001:8001 &
-kubectl port-forward svc/webapp-frontend 8000:8000 &
+kubectl port-forward svc/krakend-service  8000:8000

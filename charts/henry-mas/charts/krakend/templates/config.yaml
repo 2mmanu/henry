@@ -1,0 +1,129 @@
+#https://designer.krakend.io/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: krakend-config
+data:
+  krakend.json: |
+        {
+        "version": 3,
+        "endpoints": [
+            {
+            "endpoint": "/api/v1/sentinel",
+            "method": "POST",
+            "headers_to_pass": [
+                "X-Session-Id",
+                "Content-Type"
+            ],
+            "backend": [
+                {
+                "host": [
+                    "http://webapp-be:8001"
+                ],
+                "url_pattern": "/api/v1/sentinel",
+                "method": "POST"
+                }
+            ],
+            "input_query_strings": [],
+            "input_headers": [
+                "x-session-id"
+            ]
+            },
+            {
+            "endpoint": "/api/v1/stream",
+            "method": "GET",
+            "querystring_params": [
+                "sessionId",
+                "content"
+            ],
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                "host": [
+                    "http://webapp-be:8001"
+                ],
+                "encoding": "no-op",
+                "url_pattern": "/api/v1/stream",
+                "method": "GET"
+                }
+            ],
+            "input_query_strings": [
+                "sessionId",
+                "content"
+            ]
+            },
+            {
+            "endpoint": "/api/v1/create-session",
+            "method": "POST",
+            "headers_to_pass": [
+                "accept"
+            ],
+            "backend": [
+                {
+                "host": [
+                    "http://webapp-session:8002"
+                ],
+                "url_pattern": "/api/v1/create-session"
+                }
+            ]
+            },
+            {
+            "endpoint": "/api/v1/close-session",
+            "method": "POST",
+            "headers_to_pass": [
+                "Accept",
+                "Content-Type"
+            ],
+            "backend": [
+                {
+                "host": [
+                    "http://webapp-session:8002"
+                ],
+                "url_pattern": "/api/v1/close-session"
+                }
+            ]
+            },
+            {
+            "endpoint": "/",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                "url_pattern": "/",
+                "encoding": "no-op",
+                "sd": "static",
+                "method": "GET",
+                "host": [
+                    "http://webapp-frontend:8000"
+                ],
+                "disable_host_sanitize": false
+                }
+            ]
+            },
+            {
+            "endpoint": "/static/{file}",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                "url_pattern": "/static/{file}",
+                "encoding": "no-op",
+                "sd": "static",
+                "method": "GET",
+                "host": [
+                    "http://webapp-frontend:8000"
+                ],
+                "disable_host_sanitize": false
+                }
+            ]
+            }
+        ],
+        "output_encoding": "json",
+        "debug_endpoint": true,
+        "echo_endpoint": true,
+        "timeout": "60s"
+        }
+
+
+
+        
