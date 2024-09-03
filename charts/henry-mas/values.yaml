@@ -1,11 +1,11 @@
 global:
   memgpt:
-    host: "http://my-memgpt:8083"
-    key: "sk-3865e0a0f8f2fb976a7856d40c1df573dec09e537cae95ad"
+    host: "http://henry-memgpt:8083"
+    # key: "sk-3865e0a0f8f2fb976a7856d40c1df573dec09e537cae95ad"
 
 webapp:
   active: true
-  vesion: 0.1.1.dev32
+  vesion: 0.1.1.dev33
   podTemplates:
     env:
     - name: TWIN_BASE_URL
@@ -19,16 +19,16 @@ webapp:
       value: "vivo a Torino, id bancario: 12345678"
 
 twin:
-  version: 0.1.1.dev31
+  version: 0.1.1.dev33
   podTemplates:
     replicaCount: 2
     env:
     - name: FACILITATOR_BASE_URL
       value: "http://facilitator/api/v1"
     - name: MEMGPT_BASE_URL
-      value: "http://my-memgpt:8083"
+      value: "http://henry-memgpt:8083"
     - name: MEMGPT_KEY
-      value: "sk-fa5c7de8d6c03bdb29a5efe5fe3fbacbdbd31fb341e4dccf"
+      value: "password"
     - name: SESSION_BASE_URL
       value: "http://webapp-session:8002"
 
