@@ -33,3 +33,18 @@ kubectl port-forward svc/krakend-service  8000:8000
 ```
 
 Then, open a browser and navigate to [`http://localhost:8000`](http://localhost:8000)
+
+
+## BibTeX Citation
+
+```
+@misc{lacavalla2024henrymultiagentframeworkmultidomain,
+      title={HEnRY: A Multi-Agent System Framework for Multi-Domain Contexts}, 
+      author={Emmanuele Lacavalla and Shuyi Yang and Riccardo Crupi and Joseph E. Gonzalez},
+      year={2024},
+      eprint={2410.12720},
+      archivePrefix={arXiv},
+      primaryClass={cs.MA},
+      url={https://arxiv.org/abs/2410.12720}, 
+}
+```
