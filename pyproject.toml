@@ -28,7 +28,7 @@ henry-control = "apps.control_plane.__main__:main"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8,<9",
+    "pytest>=8,<10",
     "pytest-asyncio>=0.24,<1",
     "ruff>=0.6,<1",
 ]
