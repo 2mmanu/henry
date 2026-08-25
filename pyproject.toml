@@ -1,0 +1,55 @@
+[project]
+name = "henry-control"
+version = "0.1.0"
+description = "Domain-sovereign governance and vendor-neutral multi-agent orchestration"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "HEnRY contributors" }]
+requires-python = ">=3.11"
+keywords = ["agents", "governance", "multi-agent", "omniagent", "security"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: FastAPI",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastapi>=0.112,<1",
+    "httpx>=0.27,<1",
+    "pydantic>=2.9,<3",
+    "uvicorn>=0.30,<1",
+]
+
+[project.scripts]
+henry-control = "apps.control_plane.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+    "pytest-asyncio>=0.24,<1",
+    "ruff>=0.6,<1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["henry", "apps"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

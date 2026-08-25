@@ -1,1 +1,0 @@
-kubectl port-forward svc/krakend-service  8000:8000

@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose an improvement or new capability
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Which user or governance problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Security and domain boundaries
+      description: Explain effects on sovereignty, visibility, policy and audit.
+    validations:
+      required: true

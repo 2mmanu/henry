@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HEnRY Domain Governance Lab</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #07110e; color: #eef8f2; }
+    main { width: min(1120px, calc(100% - 32px)); margin: 40px auto; }
+    header { display: flex; justify-content: space-between; gap: 24px; align-items: start; margin-bottom: 28px; }
+    h1 { margin: 0 0 8px; font-size: clamp(32px, 5vw, 58px); letter-spacing: -.04em; }
+    p { color: #a9c0b3; line-height: 1.55; margin: 0; }
+    .badge { border: 1px solid #2d7654; color: #90e6b8; padding: 8px 12px; border-radius: 999px; white-space: nowrap; }
+    .grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 20px; }
+    .card { background: #0d1d17; border: 1px solid #1d3b2e; border-radius: 18px; padding: 22px; box-shadow: 0 18px 70px #0006; }
+    h2 { margin: 0 0 18px; font-size: 18px; }
+    label { display: grid; gap: 7px; color: #bcd0c3; font-size: 13px; margin-bottom: 14px; }
+    input, select, textarea { width: 100%; background: #07110e; color: #eef8f2; border: 1px solid #2b4b3d; border-radius: 10px; padding: 11px 12px; font: inherit; }
+    textarea { min-height: 86px; resize: vertical; }
+    button { width: 100%; border: 0; border-radius: 11px; padding: 13px; background: #58d68d; color: #07110e; font-weight: 750; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+    pre { min-height: 420px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: #cce8d7; font-size: 12px; line-height: 1.55; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .flow span { padding: 7px 9px; border-radius: 8px; background: #112a20; color: #90e6b8; font-size: 12px; }
+    .error { color: #ff9e9e; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } header { flex-direction: column; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Domain Governance Lab</h1>
+      <p>See a sovereign domain share only the context required by an authorized capability.</p>
+      <div class="flow"><span>HR domain</span><span>Capability</span><span>Visibility cone</span><span>Runtime</span><span>Audit</span></div>
+    </div>
+    <div class="badge">Local demo runtime</div>
+  </header>
+  <section class="grid">
+    <form class="card" id="task-form">
+      <h2>Request an HR capability</h2>
+      <label>Subject <input id="subject" value="employee-123"></label>
+      <label>Tenant <input id="tenant" value="isp"></label>
+      <label>Entitlements <input id="entitlements" value="hr:read"></label>
+      <label>Purpose <input id="purpose" value="candidate-assessment"></label>
+      <label>Capability <input id="capability" value="hr.compensation.read@1"></label>
+      <label>Objective <textarea id="objective">Return the compensation band for a software developer.</textarea></label>
+      <label>Role <input id="role" value="software-developer"></label>
+      <label>Candidate name (not granted) <input id="candidate" value="Alice Example"></label>
+      <button id="submit" type="submit">Run through HEnRY</button>
+    </form>
+    <div class="card">
+      <h2>Governed result</h2>
+      <pre id="output">Run the task to inspect the authorized projection and its audit trail.</pre>
+    </div>
+  </section>
+</main>
+<script>
+const form = document.querySelector('#task-form');
+const output = document.querySelector('#output');
+const button = document.querySelector('#submit');
+const value = id => document.querySelector(`#${id}`).value;
+const headers = () => ({
+  'Content-Type': 'application/json',
+  'X-HEnRY-Key': 'local-demo-key',
+  'X-HEnRY-Subject': value('subject'),
+  'X-HEnRY-Tenant': value('tenant'),
+  'X-HEnRY-Entitlements': value('entitlements')
+});
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  button.disabled = true;
+  output.className = '';
+  output.textContent = 'Authorizing and executing…';
+  try {
+    const create = await fetch('/v1/tasks', {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify({
+        purpose: value('purpose'), capability_ref: value('capability'),
+        objective: value('objective'),
+        inputs: { role: value('role'), candidate_name: value('candidate') },
+        selectors: ['role'], input_classification: 2,
+        idempotency_key: crypto.randomUUID()
+      })
+    });
+    const task = await create.json();
+    if (!create.ok) throw new Error(JSON.stringify(task));
+    const [statusResponse, auditResponse] = await Promise.all([
+      fetch(`/v1/tasks/${task.task_id}`, { headers: headers() }),
+      fetch(`/v1/tasks/${task.task_id}/audit`, { headers: headers() })
+    ]);
+    const status = await statusResponse.json();
+    const audit = await auditResponse.json();
+    output.textContent = JSON.stringify({ task, execution: status.execution, audit }, null, 2);
+  } catch (error) {
+    output.className = 'error';
+    output.textContent = String(error);
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
