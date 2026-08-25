@@ -58,6 +58,9 @@ that come first:
 Agents and providers are replaceable implementation details. Domain sovereignty and governance
 remain stable when either changes.
 
+The [research landscape and alternatives](docs/related-work.md) compares HEnRY with agent
+protocols, privilege-control middleware, verifiable identity and auditability research.
+
 ## Core model
 
 - **Domains own boundaries.** Each domain controls its policies, classifications, capabilities,
@@ -155,6 +158,7 @@ tests/                 Unit and integration coverage
 
 - [Documentation map](docs/README.md)
 - [Problem statement](docs/problem.md)
+- [Research landscape and alternatives](docs/related-work.md)
 - [Getting started](docs/getting-started.md)
 - [Domains and sovereignty](docs/concepts/domains.md)
 - [Controlled context sharing](docs/concepts/context-sharing.md)
