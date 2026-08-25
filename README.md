@@ -18,6 +18,29 @@ prototype used MemGPT/Letta.
 > **Status: alpha.** The governed execution path is implemented and tested. Durable storage,
 > production identity and complete facilitator/mediator workflows remain on the roadmap.
 
+## The problem
+
+Organizations are not one knowledge base with one trust boundary. They are made of domains—such as
+HR, finance, legal or operations—with different owners, data, tools, policies and access rules. A
+request may need several of those domains, while no participant should automatically see the full
+user context or another domain's internal state.
+
+The usual approaches force an unsafe trade-off:
+
+| Approach | What breaks as domains grow |
+| --- | --- |
+| One assistant per domain | Users face multiple portals; teams duplicate infrastructure; cross-domain work stays manual |
+| One centralized assistant | It becomes over-privileged; ownership blurs; sensitive context accumulates; execution becomes hard to audit |
+| Provider-specific integrations | Capabilities and governance become coupled to a runtime, slowing replacement and reuse |
+
+The hard problem is therefore not simply routing a prompt to several agents. It is letting one task
+cross organizational boundaries while every domain retains authority over its capabilities and data,
+only the minimum authorized context is disclosed, and every delegation and result remains
+reconstructable.
+
+HEnRY addresses this as a governance problem above the execution runtime. Read the full
+[problem statement](docs/problem.md).
+
 ## Why HEnRY?
 
 Most agent frameworks answer **how to run an agent**. HEnRY answers the organizational questions
@@ -131,6 +154,7 @@ tests/                 Unit and integration coverage
 ## Documentation
 
 - [Documentation map](docs/README.md)
+- [Problem statement](docs/problem.md)
 - [Getting started](docs/getting-started.md)
 - [Domains and sovereignty](docs/concepts/domains.md)
 - [Controlled context sharing](docs/concepts/context-sharing.md)

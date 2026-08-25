@@ -4,11 +4,12 @@ Start with the problem you are trying to solve, then move into contracts and imp
 
 ## Learn
 
-1. [Getting started](getting-started.md) — run the deterministic governance demo.
-2. [Domains and sovereignty](concepts/domains.md) — understand the primary HEnRY boundary.
-3. [Controlled context sharing](concepts/context-sharing.md) — understand visibility cones.
-4. [Architecture overview](architecture/overview.md) — connect contracts to services.
-5. [Provider adapters](providers/README.md) — integrate another execution runtime.
+1. [Problem statement](problem.md) — understand why cross-domain agent collaboration is hard.
+2. [Getting started](getting-started.md) — run the deterministic governance demo.
+3. [Domains and sovereignty](concepts/domains.md) — understand the primary HEnRY boundary.
+4. [Controlled context sharing](concepts/context-sharing.md) — understand visibility cones.
+5. [Architecture overview](architecture/overview.md) — connect contracts to services.
+6. [Provider adapters](providers/README.md) — integrate another execution runtime.
 
 ## Decisions and operations
 
