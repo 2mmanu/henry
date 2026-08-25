@@ -96,3 +96,5 @@ or records-management systems. It integrates those controls into agent collabora
 
 The problem and original architecture are introduced in
 [HEnRY: A Multi-Agent System Framework for Multi-Domain Contexts](https://arxiv.org/abs/2410.12720).
+See the [research landscape and alternatives](related-work.md) for a sourced comparison with adjacent
+approaches to interoperability, least privilege, identity and auditability.
